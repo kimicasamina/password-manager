@@ -14,6 +14,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
 app.use(cors(corsOption))
 
+// custom middleware logger
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`)
+    next()
+})
+
 // serve static files
 app.use(express.static(path.join(__dirname, '/build')))
 

@@ -18,6 +18,12 @@ app.use(_express["default"].urlencoded({
 app.use((0, _helmet["default"])());
 app.use((0, _cors["default"])(_corsOption.corsOption));
 
+// custom middleware logger
+app.use(function (req, res, next) {
+  console.log("".concat(req.method, " ").concat(req.path));
+  next();
+});
+
 // serve static files
 app.use(_express["default"]["static"](_path["default"].join(__dirname, '/build')));
 app.get('^/$|/index(.html)?', function (req, res) {
