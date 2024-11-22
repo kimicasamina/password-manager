@@ -4,6 +4,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 var _path = _interopRequireDefault(require("path"));
 var _fs = _interopRequireWildcard(require("fs"));
 var _uuid = require("uuid");
+var _dateFormatter = require("../utils/dateFormatter");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
@@ -12,48 +13,56 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var mkdir = _fs.promises.mkdir,
   appendFile = _fs.promises.appendFile;
-
 // const fsPromises = fs.promises
 
 function toTimestamp(strDate) {
   var datum = Date.parse(strDate);
   return datum / 1000;
 }
-// alert(toTimestamp('02/13/2009 23:31:30'))
-
 var logEvents = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(msg, logName) {
-    var dateTime, logItem;
+    var d, dateTime, logItem;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          dateTime = "".concat(toTimestamp(new Date()));
+          d = new Date();
+          console.log((0, _dateFormatter.formatDate)(d));
+          console.log((0, _dateFormatter.formatTime)(d));
+          dateTime = "".concat((0, _dateFormatter.formatDateShort)(d), "\t").concat((0, _dateFormatter.formatTime)(d));
           logItem = "".concat(dateTime, "\t").concat((0, _uuid.v4)(), "\t").concat(msg, "\n}");
-          _context.prev = 2;
-          if (_fs["default"].existsSync(_path["default"].join(__dirname, 'logs'))) {
-            _context.next = 6;
+          _context.prev = 5;
+          if (_fs["default"].existsSync(_path["default"].join(__dirname, '..', 'logs'))) {
+            _context.next = 9;
             break;
           }
-          _context.next = 6;
-          return mkdir(_path["default"].join(__dirname, 'logs'));
-        case 6:
-          _context.next = 8;
-          return appendFile(_path["default"].join(__dirname, 'logs', logName), logItem);
-        case 8:
-          _context.next = 13;
+          _context.next = 9;
+          return mkdir(_path["default"].join(__dirname, '..', 'logs'));
+        case 9:
+          _context.next = 11;
+          return appendFile(_path["default"].join(__dirname, '..', 'logs', logName), logItem);
+        case 11:
+          _context.next = 16;
           break;
-        case 10:
-          _context.prev = 10;
-          _context.t0 = _context["catch"](2);
-          console.log(_context.t0);
         case 13:
+          _context.prev = 13;
+          _context.t0 = _context["catch"](5);
+          console.log(_context.t0);
+        case 16:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 10]]);
+    }, _callee, null, [[5, 13]]);
   }));
   return function logEvents(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
-module.exports = logEvents;
+var logger = function logger(req, res, next) {
+  logEvents("".concat(req.method, "\t").concat(req.headers.origin, "\t").concat(req.url), 'reqLog.txt');
+  console.log("".concat(req.method, " ").concat(req.path));
+  next();
+};
+module.exports = {
+  logEvents: logEvents,
+  logger: logger
+};
