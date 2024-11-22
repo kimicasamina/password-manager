@@ -5,6 +5,9 @@ import helmet from 'helmet'
 import cors from 'cors'
 import { corsOption } from './middleware/corsOption'
 import { logger } from './middleware/logEvents'
+import sequelize from './db/config/sequelize'
+import { User } from './db/models/User'
+import { Password } from './db/models/Password'
 
 dotenv.config()
 const app = express()
@@ -18,22 +21,35 @@ app.use(helmet())
 // custom middleware logger
 app.use(logger)
 
-// serve static files
-// app.use(express.static(path.join(__dirname, '/build')))
+app.use('/api/users/', async (req, res) => {
+    console.log('hello')
+    const users = await User.findAll()
+    res.json({ users })
+})
 
-// app.get('^/$|/index(.html)?', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'views', 'index.html'))
+app.use('/api/passwords/', async (req, res) => {
+    console.log('hello')
+    const passwords = await Password.findAll()
+    res.json({ passwords })
+})
+// app.use('/', (req, res, next) => {
+//     res.json({ msg: 'hello world' })
 // })
-// // not found handler
-// app.get('/*', (req, res) => {
-//     res.status(404).sendFile(path.join(__dirname, 'views', '404_page.html'))
-// })
+
 // global error handler
 app.use('*', (err, req, res, next) => {
     console.error(err.stack)
     res.status(500).send(err.message)
 })
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server starts at http://localhost:${process.env.PORT}`)
-})
+sequelize
+    .sync()
+    .then(() => {
+        console.log('Connection has been established successfully.')
+        app.listen(process.env.PORT, () => {
+            console.log(`Server starts at http://localhost:${process.env.PORT}`)
+        })
+    })
+    .catch((error) => {
+        console.error('Unable to connect to the database: ', error)
+    })

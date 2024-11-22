@@ -34,8 +34,14 @@ API CHECKLIST
 
 ## Logging
 
-[] - Create a custom middleware that will generate a logfile
+[x] - Create a custom middleware that will generate a logfile
 
 ## Validate request data
 
 Use joi to validate inputs
+
+## Authentication
+
+[] - create a auth routes and auth handler
+[] - create middleware to verify token
+[] - create a middleware to generate token
