@@ -5,6 +5,10 @@ API CHECKLIST
 [x] - Installation and setup guide: [https://gist.github.com/vukhanhtruong/670c6b4d1c02a5798cb40a50762c7548]
 [x] - Setup env variables
 
+## Serve Static folder
+
+[] - serve static files
+
 ## Error handling
 
 [x] - Create a global error handler
