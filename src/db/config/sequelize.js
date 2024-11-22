@@ -6,8 +6,8 @@ const sequelize = new Sequelize('pass_manager', 'root', 'root_password', {
     host: 'localhost',
     dialect: 'mysql',
     logging: false,
-    models: [__dirname + '/src/db/models'],
-    storage: './src/db/storage/mysql',
+    // models: [__dirname + '/src/db/models'],
+    // storage: './src/db/storage/mysql',
 })
 
 export default sequelize

@@ -6,8 +6,8 @@ import cors from 'cors'
 import { corsOption } from './middleware/corsOption'
 import { logger } from './middleware/logEvents'
 import sequelize from './db/config/sequelize'
-import { User } from './db/models/User'
-import { Password } from './db/models/Password'
+import userRouter from './api/routes/user'
+import passwordRouter from './api/routes/password'
 
 dotenv.config()
 const app = express()
@@ -16,25 +16,13 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
-// app.use(cors(corsOption))
+app.use(cors(corsOption))
 
 // custom middleware logger
 app.use(logger)
 
-app.use('/api/users/', async (req, res) => {
-    console.log('hello')
-    const users = await User.findAll()
-    res.json({ users })
-})
-
-app.use('/api/passwords/', async (req, res) => {
-    console.log('hello')
-    const passwords = await Password.findAll()
-    res.json({ passwords })
-})
-// app.use('/', (req, res, next) => {
-//     res.json({ msg: 'hello world' })
-// })
+app.use('/api/users/', userRouter)
+app.use('/api/passwords', passwordRouter)
 
 // global error handler
 app.use('*', (err, req, res, next) => {
