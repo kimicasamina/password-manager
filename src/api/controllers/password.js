@@ -1,4 +1,7 @@
-import { Password } from '../../db/models/Password'
+// import { Password } from '../../db/models/Password'
+// import { User } from '../../db/models/User'
+import Password from '../../db/models/Password'
+import User from '../../db/models/User'
 
 export const getAllPasswords = async (req, res, next) => {
     try {
@@ -65,10 +68,19 @@ export const updatePassword = async (req, res, next) => {
 
 export const createNewPassword = async (req, res, next) => {
     try {
-        const password = await Password.create({ ...req.body })
-        return res
-            .status(200)
-            .json({ password, msg: 'Successfully created a new user' })
+        const { user_id } = req.body
+        const existingUser = await User.findOne({
+            where: { id: user_id },
+        })
+
+        if (!existingUser) {
+            return res.status(401).json({ msg: 'User not found' })
+        }
+        const newPassword = await Password.create({ ...req.body })
+        return res.status(200).json({
+            password: newPassword,
+            msg: 'Successfully created a new user',
+        })
     } catch (error) {
         res.json({ msg: 'fail to create a new user' })
     }

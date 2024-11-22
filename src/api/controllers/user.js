@@ -1,8 +1,16 @@
-import { User } from '../../db/models/User'
+// import { User } from '../../db/models/User'
+// import { Password } from '../../db/models/Password'
+import Password from '../../db/models/Password'
+import User from '../../db/models/User'
 
 export const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User.findAll()
+        const users = await User.findAll({
+            include: {
+                model: Password,
+                as: 'passwords',
+            },
+        })
         return res
             .status(200)
             .json({ users, msg: 'Successfully retrieved data' })
@@ -15,7 +23,17 @@ export const getAllUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const user = await User.findOne({ where: { id } })
+        const user = await User.findOne({
+            where: { id },
+            // attributes: {
+            //     exclude: ['createdAt', 'updatedAt'],
+            // },
+            include: {
+                model: Password,
+                as: 'passwords',
+                // attributes: ['name', 'email'],
+            },
+        })
         return res
             .status(200)
             .json({ user, msg: 'Successfully retrieved data' })

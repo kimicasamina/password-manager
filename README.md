@@ -20,13 +20,19 @@ API CHECKLIST
 
 ## Routes
 
+[x] - Routes for users
+[x] - Routes for passwords
+
 ## Route handler
+
+[x] - Route handler for users
+[x] - Route handler for passwords
 
 ## Database
 
-[] - Configure database
-[] - Create db models
-[] - Connect db
+[x] - Configure database
+[x] - Create db models
+[x] - Connect db
 
 ## Api versioning
 
@@ -45,3 +51,14 @@ Use joi to validate inputs
 [] - create a auth routes and auth handler
 [] - create middleware to verify token
 [] - create a middleware to generate token
+
+## FEATURES
+
+[x] - Create passwords
+[x] - Create users
+[x] - Update passwords
+[x] - Update users
+[x] - Delete passwords
+[x] - Delete users
+[] - Upload users image
+[] - Create Secret notes/key
