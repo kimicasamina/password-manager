@@ -7,7 +7,7 @@ API CHECKLIST
 
 ## Serve Static folder
 
-[] - serve static files
+[x] - serve static files
 
 ## Error handling
 

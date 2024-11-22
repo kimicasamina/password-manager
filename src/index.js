@@ -4,6 +4,7 @@ import path from 'path'
 import helmet from 'helmet'
 import cors from 'cors'
 import { corsOption } from './middleware/corsOption'
+import { logger } from './middleware/logEvents'
 
 dotenv.config()
 const app = express()
@@ -12,24 +13,21 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet())
-app.use(cors(corsOption))
+// app.use(cors(corsOption))
 
 // custom middleware logger
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`)
-    next()
-})
+app.use(logger)
 
 // serve static files
-app.use(express.static(path.join(__dirname, '/build')))
+// app.use(express.static(path.join(__dirname, '/build')))
 
-app.get('^/$|/index(.html)?', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'))
-})
-// not found handler
-app.get('/*', (req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404_page.html'))
-})
+// app.get('^/$|/index(.html)?', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'views', 'index.html'))
+// })
+// // not found handler
+// app.get('/*', (req, res) => {
+//     res.status(404).sendFile(path.join(__dirname, 'views', '404_page.html'))
+// })
 // global error handler
 app.use('*', (err, req, res, next) => {
     console.error(err.stack)

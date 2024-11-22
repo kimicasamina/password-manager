@@ -6,6 +6,7 @@ var _path = _interopRequireDefault(require("path"));
 var _helmet = _interopRequireDefault(require("helmet"));
 var _cors = _interopRequireDefault(require("cors"));
 var _corsOption = require("./middleware/corsOption");
+var _logEvents = _interopRequireDefault(require("./middleware/logEvents"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 _dotenv["default"].config();
 var app = (0, _express["default"])();
@@ -16,16 +17,18 @@ app.use(_express["default"].urlencoded({
   extended: true
 }));
 app.use((0, _helmet["default"])());
-app.use((0, _cors["default"])(_corsOption.corsOption));
+// app.use(cors(corsOption))
 
 // custom middleware logger
 app.use(function (req, res, next) {
+  (0, _logEvents["default"])("".concat(req.method, "\t").concat(req.headers.origin, "\t").concat(req.url), 'reqLog.txt');
   console.log("".concat(req.method, " ").concat(req.path));
   next();
 });
 
 // serve static files
-app.use(_express["default"]["static"](_path["default"].join(__dirname, '/build')));
+// app.use(express.static(path.join(__dirname, '/build')))
+
 app.get('^/$|/index(.html)?', function (req, res) {
   res.sendFile(_path["default"].join(__dirname, 'views', 'index.html'));
 });
