@@ -13,17 +13,6 @@ const User = sequelize.define(
                 notEmpty: true,
             },
         },
-
-        // user_id: {
-        //     type: DataTypes.UUID,
-        //     required: true,
-        //     allowNull: false,
-        //     // references: {
-        //     //     model: User,
-        //     //     key: 'user_id',
-        //     // },
-        // },
-
         username: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -51,6 +40,11 @@ const User = sequelize.define(
     },
     {
         timestamps: true,
+        scopes: {
+            withoutPassword: {
+                attributes: { exclude: ['password'] },
+            },
+        },
         // sequelize,
         // tableName: 'users',
         // modelName: 'users',

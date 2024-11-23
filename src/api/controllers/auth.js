@@ -1,7 +1,6 @@
 import Password from '../../db/models/Password'
 import User from '../../db/models/User'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import { generateToken } from '../../utils/generateToken'
 import { checkPassword } from '../../utils/checkPassword'
 
@@ -53,10 +52,7 @@ export const loginUser = async (req, res, next) => {
         }
 
         // check if password is correct
-        const isPasswordMatch = checkPassword(
-            req.body.password,
-            existingUser.password
-        )
+        const isPasswordMatch = checkPassword(password, existingUser.password)
 
         if (!isPasswordMatch) {
             return res.status(401).json({ error: 'Incorrect password' })
@@ -100,14 +96,14 @@ export const getUserDetails = async (req, res, next) => {
     console.log('REQ USER_ID', user_token)
 
     try {
-        const user = await User.findOne({
+        const user = await User.scope('withoutPassword').findOne({
             where: { id: user_token.id },
             include: {
                 model: Password,
                 as: 'passwords',
                 // attributes: ['name', 'email'],
             },
-            exclude: 'password',
+            // exclude: 'password',
         })
         return res.status(200).json({ user })
     } catch (err) {
