@@ -1,12 +1,14 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import path from 'path'
+import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import cors from 'cors'
 import { corsOption } from './middleware/corsOption'
 import { logger } from './middleware/logEvents'
 import sequelize from './db/config/sequelize'
 import userRouter from './api/routes/user'
+import authRouter from './api/routes/auth'
 import passwordRouter from './api/routes/password'
 
 dotenv.config()
@@ -15,6 +17,7 @@ const app = express()
 // middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.use(helmet())
 app.use(cors(corsOption))
 
@@ -22,6 +25,7 @@ app.use(cors(corsOption))
 app.use(logger)
 
 app.use('/api/users/', userRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/passwords', passwordRouter)
 
 // global error handler

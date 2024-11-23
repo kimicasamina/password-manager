@@ -14,18 +14,16 @@
 -   [x] Create a custom middleware that will generate a logfile
 -   [] Validate user inputs using Joi
 -   [] Setup jest for testing
--   [] create auth routes and auth handler
--   [] create a middleware that will generate a jwt token
--   [] create a middleware to verify token
--   [x] Create passwords
--   [x] Update passwords
--   [x] Delete passwords
--   [x] Update passwords
--   [x] Create users
--   [x] Update users
--   [x] Delete users
--   [x] Update users
+-   [x] A middleware that will generate a jwt token
+-   [x] A middleware for comparing user password and hashed password
+-   [x] Passwords route handler
+-   [x] Users route handler
+-   [x] Auth route login, logout, register and getuserdetails
+-   [x] Middleware for verifying jwt token
+-   [] Create error middleware
 -   [] Upload users image
 -   [] Create secret notes model and routes
+-   [] Secure user and password route
+-   [] Password encryptions and descriptions
 
 Babel and eslint [installation guide](https://gist.github.com/vukhanhtruong/670c6b4d1c02a5798cb40a50762c7548)

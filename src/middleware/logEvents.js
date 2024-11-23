@@ -18,7 +18,7 @@ const logEvents = async (msg, logName) => {
     console.log(formatDate(d))
     console.log(formatTime(d))
     const dateTime = `${formatDateShort(d)}\t${formatTime(d)}`
-    const logItem = `${dateTime}\t${uuid_v4()}\t${msg}\n}`
+    const logItem = `${dateTime}\t${uuid_v4()}\t${msg}}\n`
 
     try {
         if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {

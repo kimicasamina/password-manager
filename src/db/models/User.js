@@ -13,6 +13,24 @@ const User = sequelize.define(
                 notEmpty: true,
             },
         },
+
+        // user_id: {
+        //     type: DataTypes.UUID,
+        //     required: true,
+        //     allowNull: false,
+        //     // references: {
+        //     //     model: User,
+        //     //     key: 'user_id',
+        //     // },
+        // },
+
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            },
+        },
         email: {
             type: DataTypes.STRING,
             validate: {
@@ -38,4 +56,5 @@ const User = sequelize.define(
         // modelName: 'users',
     }
 )
+
 module.exports = User

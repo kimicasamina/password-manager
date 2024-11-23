@@ -222,10 +222,10 @@ const Password = sequelize.define(
             type: DataTypes.UUID,
             required: true,
             allowNull: false,
-            references: {
-                model: User,
-                key: 'user_id',
-            },
+            // references: {
+            //     model: User,
+            //     key: 'user_id',
+            // },
         },
         name: {
             type: DataTypes.STRING,

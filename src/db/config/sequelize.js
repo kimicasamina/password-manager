@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const sequelize = new Sequelize('pass_manager', 'root', 'root_password', {
+const sequelize = new Sequelize('Password_manager', 'root', 'root_password', {
     host: 'localhost',
     dialect: 'mysql',
     logging: false,
